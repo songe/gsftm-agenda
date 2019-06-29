@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+     <?!= include("sign-up-css"); ?>
+  </head>
+  <body id="sign-up-root">
+    <h1>Global San Francisco Toastmasters</h1>
+    <h2>Meeting Sign Up Sheet</h2>
+    <p>If you are a member and would like to participate in the next Toastmasters meeting, please fill out your name in an open role below.</p>
+    <ol>
+      <li><b>Toastmaster</b> must print <u>15 copies</u> of the agenda and bring it to the meeting</li>
+      <li><b>Grammarian</b> must fill out the Word of the Day (fall back to Toastmaster)</li>
+      <li><b>Speakers</b> must fill out the Speech details</li>
+    </ol>
+    <a href="https://gsftm.page.link/agendapdf">🖨Print the Agenda</a>
+    <div id="sign-up"></div>
+    <ul class="info">
+    <li>You can reach this page from <a href="https://gsftm.page.link/agenda">https://gsftm.page.link/agenda</a></li>
+    <li>You can view the PDF version of the agenda at <a href="https://gsftm.page.link/agendapdf">https://gsftm.page.link/agendapdf</a></li>
+    <li>For more information about the club, visit <a href="https://globalsftoastmasters.toastmastersclubs.org">https://globalsftoastmasters.toastmastersclubs.org</a></li>
+    <li>For any questions or suggestions, leave a comment or email Angie at <a href="mailto:globalsftoastmasters@gmail.com?subject=Meeting Sign Up Sheet">globalsftoastmasters@gmail.com</a></li>
+    </ul>
+    <footer>Made by Angie at Global San Francisco Toastmasters</footer>
+
+    <script type="text/javascript">
+     const data = JSON.parse(<?= JSON.stringify(data); ?>);
+     const meetingDate = <?= meetingDate ?>;
+
+     function sendUpdatedDataToSheet(data) {
+       google.script.run.updateCurrentSignUps(data);
+     }
+
+     function resetEverything() {
+       google.script.run.Reset();
+     }
+     </script>
+    <?!= include("sign-up-react"); ?>
+  </body>
+</html>
+
+

@@ -1,0 +1,104 @@
+<script type="text/babel">
+var fields = {
+  "word": {
+    "pronunciation": "",
+    "class": "",
+    "definition":"",
+    "usage":""
+  },
+  "roles": {
+    "toastmaster": "",
+    "speaker1": {
+      "speakerName": "",
+      "projectNumber": "",
+      "projectName": "",
+      "speechName": ""
+    },
+    "speaker2": {
+      "speakerName": "",
+      "projectNumber": "",
+      "projectName": "",
+      "speechName": ""
+    },
+    "genEvaluator":""
+  }
+};
+
+class Role extends React.Component {
+  constructor(props) {
+    super(props);
+    this.save = this.save.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      value: this.props.value,
+      saved: ""
+    };
+  }
+  save(e) {
+    var newValue = e.target.value;
+    if (this.state.value != newValue) {
+      this.setState({
+        saved: "✅",
+        value: newValue
+      });
+      var update = {};
+      update[this.props.name] = newValue;
+      this.props.onSave(update);
+    } else {
+      this.setState({saved: ""});
+    }
+  }
+  onChange(e) {
+    if (this.state.value != e.target.value) {
+      this.setState({saved: "💬️"});
+    }
+  }
+  render() {
+    return <label className="role">
+      {this.props.name}
+      <input type="text" onChange={this.onChange} onBlur={this.save} defaultValue={this.state.value} />
+      {this.state.saved}
+    </label>
+  }
+}
+
+class Roles extends React.Component {
+  render() {
+    const data = this.props.data;
+    const roles = Object.keys(data).map((name) => <Role key={name} onSave={this.props.onSave} name={name} value={data[name]} />);
+    return <dl>
+      {roles}
+    </dl>;
+  }
+}
+
+class SignUpForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = this.props.data;
+    this.save = this.save.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+  save(data) {
+    this.setState(data, function() {
+      sendUpdatedDataToSheet(this.state);
+    });
+  }
+  reset() {
+    //resetEverything();
+    var self = this;
+    Object.keys(this.state).forEach((key) => self.state[key] = "");
+    this.setState(this.state);
+  }
+  render() {
+    return <React.Fragment>
+      <dt><b>Meeting Date</b></dt><dd>{meetingDate}</dd>
+      <button onClick={this.reset}>Clear everything♻️️</button>
+      <Roles data={this.state} onSave={this.save} />
+    </React.Fragment>;
+  }
+}
+
+const element = <SignUpForm data={data}/>;
+ReactDOM.render(element, document.getElementById('sign-up'))
+</script>
