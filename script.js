@@ -56,7 +56,7 @@ function getCurrentSignUps() {
 
 function updateCurrentSignUps(data) {
   var changeLog = {};
-  for (var field in locations) {
+  for (var field in data) {
     var location = locations[field];
     var newValue = data[field];
     var oldValue = signUpSheet.getRange(location).getValue();
