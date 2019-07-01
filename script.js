@@ -18,17 +18,17 @@ function include(filename) {
 }
 
 var locations = {
-  "word": "E9",
+  "word.word": "E9",
   "word.pronunciation": "E10",
   "word.class": "E11",
   "word.definition": "E12",
   "word.usage": "E13",
   "toastmaster": "E16",
-  "speaker1": "E17",
+  "speaker1.name": "E17",
   "speaker1.projectNumber": "E18",
   "speaker1.projectName": "E19",
   "speaker1.speechName": "E20",
-  "speaker2": "E21",
+  "speaker2.name": "E21",
   "speaker2.projectNumber": "E22",
   "speaker2.projectName": "E23",
   "speaker2.speechName": "E24",

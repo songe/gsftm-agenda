@@ -1,32 +1,107 @@
 <script type="text/babel">
 var fields = {
   "word": {
-    "pronunciation": "",
-    "class": "",
-    "definition":"",
-    "usage":""
+    "word": {
+      "title": "Word",
+      "name": "word.word",
+      "example": "toastmaster"
+    },
+    "pronunciation": {
+      "title": "Pronunciation",
+      "name": "word.pronunciation",
+      "example": "TOHST-mas-ter"
+    },
+    "class": {
+      "title": "Word Class",
+      "name": "word.class",
+      "example": "noun"
+    },
+    "definition":{
+      "title": "Definition",
+      "name": "word.definition",
+      "example": "a person who presides at a dinner and introduces the after-dinner speakers",
+      "inputType": "textarea"
+    },
+    "usage":{
+      "title": "Usage",
+      "name": "word.usage",
+      "example": "The toastmaster announced the bridal party to the assembled guests.",
+      "inputType": "textarea"
+    }
   },
   "roles": {
-    "toastmaster": "",
+    "toastmaster": {
+      "title": "Toastmaster",
+      "name":"toastmaster"
+    },
     "speaker1": {
-      "speakerName": "",
-      "projectNumber": "",
-      "projectName": "",
-      "speechName": ""
+      "title": "Speaker 1",
+      "name": {
+        "title": "Speaker1 Name",
+        "name":"speaker1.name"
+      },
+      "projectNumber": {
+        "title": "Project Number",
+        "name":"speaker1.projectNumber",
+        "example": "CC#1"
+      },
+      "projectName": {
+        "title": "Project Name",
+        "name":"speaker1.projectName",
+        "example": "Icebreaker"
+      },
+      "speechName": {
+        "title": "Speech Title",
+        "name":"speaker1.speechName",
+        "example": "The Story of My Life"
+      }
     },
     "speaker2": {
-      "speakerName": "",
-      "projectNumber": "",
-      "projectName": "",
-      "speechName": ""
+      "title": "Speaker 2",
+      "name": {
+        "title": "Speaker2 Name",
+        "name":"speaker2.name"
+      },
+      "projectNumber": {
+        "title": "Project Number",
+        "name":"speaker2.projectNumber",
+        "example": "DL#2"
+      },
+      "projectName": {
+        "title": "Project Name",
+        "name":"speaker2.projectName",
+        "example": "Researching & Presenting"
+      },
+      "speechName": {
+        "title": "Speech Title",
+        "name":"speaker2.speechName",
+        "example": "My Research on NASA"
+      }
     },
-    "genEvaluator":"",
-    "genEvaluator": "",
-    "evaluator1": "",
-    "evaluator2": "",
-    "grammarian": "",
-    "topicsmaster": "",
-    "timer": "",
+    "genEvaluator": {
+      "title":"General Evaluator",
+      "name":"genEvaluator"
+    },
+    "evaluator1": {
+      "title":"Evaluator 1",
+      "name":"evaluator1"
+    },
+    "evaluator2": {
+      "title":"Evaluator 2",
+      "name":"evaluator2"
+    },
+    "grammarian": {
+      "title":"Grammarian",
+      "name":"grammarian"
+    },
+    "topicsmaster": {
+      "title":"Topicsmaster",
+      "name":"topicsmaster"
+    },
+    "timer": {
+      "title":"Timer",
+      "name":"timer"
+    },
   }
 };
 
@@ -41,39 +116,78 @@ class Field extends React.Component {
     var newValue = e.target.value;
     var update = {};
     update[this.props.name] = newValue;
-    this.props.onSave(update);
+    this.props.functions.save(update);
     this.setState({saved: "✅"});
   }
   onChange(e) {
     var newValue = e.target.value;
     var update = {};
     update[this.props.name] = newValue;
-    this.props.onChange(update);
+    this.props.functions.update(update);
     this.setState({saved: "💬️"});
   }
   render() {
+    var value = this.props.data[this.props.name];
+    var example = this.props.example && "e.g. " + this.props.example;
+    if (this.props.inputType == 'textarea') {
+      var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} value={value}></textarea>;
+    } else {
+      input = <input type="text" onChange={this.onChange} onBlur={this.save} placeholder={example} value={value} />;
+    }
+
     return <label className="field">
-      {this.props.name}
-      <input type="text" onChange={this.onChange} onBlur={this.save} value={this.props.value} />
+      {this.props.title}
+      {input}
       {this.state.saved}
     </label>
   }
 }
 
-class Fields extends React.Component {
+class Word extends React.Component {
   render() {
-    const data = this.props.data;
-    const fields = Object.keys(data).map((name) =>
-      <Field
-        key={name}
-        onChange={this.props.onChange}
-        onSave={this.props.onSave}
-        name={name}
-        value={data[name]}
-      />);
-    return <dl>
-      {fields}
-    </dl>;
+    var self = this;
+    return <fieldset>
+      <legend>Word</legend>
+      {Object.keys(this.props.display).map((field) => {
+        var details = self.props.display[field];
+        return <Field key={field} functions={self.props.functions} data={self.props.data} {...details} /> })}
+    </fieldset>
+  }
+}
+
+class Speaker extends React.Component {
+  render() {
+    var self = this;
+    return <fieldset>
+      <legend>{this.props.display.title}</legend>
+      {Object.keys(this.props.display)
+        .map((field) => {
+        var details = self.props.display[field];
+        if (details instanceof Object) {
+          return <Field key={field} functions={self.props.functions} data={self.props.data} {...details} />;
+        }
+      })}
+    </fieldset>;
+  }
+}
+
+class Roles extends React.Component {
+  render() {
+    var self = this;
+    var roles = Object.keys(this.props.display).map((field) => {
+      var details = self.props.display[field];
+      if (details) {
+        if (field.startsWith("speaker")) {
+          return <Speaker key={field} functions={self.props.functions} data={self.props.data} display={details} />;
+        } else {
+          return <Field key={field} functions={self.props.functions} data={self.props.data} {...details} />;
+        }
+      }
+    });
+    return <fieldset>
+      <legend>Roles</legend>
+      {roles}
+    </fieldset>;
   }
 }
 
@@ -81,34 +195,40 @@ class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.data;
-    this.update = this.update.bind(this);
-    this.save = this.save.bind(this);
+    this.functions = {
+      update: this.update,
+      save: this.save
+    };
+    this.functions.update = this.update.bind(this);
+    this.functions.save = this.save.bind(this);
     this.reset = this.reset.bind(this);
   }
   save(data) {
     this.setState(data, function() {
-      console.log(`data: ${JSON.stringify(data)}`);
-      //FIXME sendUpdatedDataToSheet(this.state);
+      sendUpdatedDataToSheet(this.state);
     });
   }
   update(change) {
     this.setState(change);
   }
   reset() {
-    var self = this;
-    Object.keys(this.state).forEach((key) => self.state[key] = "");
-    this.setState(this.state);
-    //FIXME resetEverything();
+    if (confirm("Clear everything?")) {
+      var self = this;
+      Object.keys(this.state).forEach((key) => self.state[key] = "");
+      this.setState(this.state);
+      resetEverything();
+    }
   }
   render() {
     return <React.Fragment>
-      <dt><b>Meeting Date</b></dt><dd>{meetingDate}</dd>
+      <label><b>Meeting Date</b><input type="text" value={meetingDate} /></label><br/>
       <button onClick={this.reset}>Clear everything ♻️️</button>
-      <Fields data={this.state} onChange={this.update} onSave={this.save} />
+      <Word data={this.state} functions={this.functions} display={this.props.word} />
+      <Roles data={this.state} functions={this.functions} display={this.props.roles} />
     </React.Fragment>;
   }
 }
 
-const element = <SignUpForm data={dataFromSheet}/>;
+const element = <SignUpForm word={fields.word} roles={fields.roles} data={dataFromSheet} />;
 ReactDOM.render(element, document.getElementById('sign-up'))
 </script>
