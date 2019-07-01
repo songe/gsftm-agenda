@@ -20,11 +20,17 @@ var fields = {
       "projectName": "",
       "speechName": ""
     },
-    "genEvaluator":""
+    "genEvaluator":"",
+    "genEvaluator": "",
+    "evaluator1": "",
+    "evaluator2": "",
+    "grammarian": "",
+    "topicsmaster": "",
+    "timer": "",
   }
 };
 
-class Role extends React.Component {
+class Field extends React.Component {
   constructor(props) {
     super(props);
     this.state = {saved: ""};
@@ -46,7 +52,7 @@ class Role extends React.Component {
     this.setState({saved: "💬️"});
   }
   render() {
-    return <label className="role">
+    return <label className="field">
       {this.props.name}
       <input type="text" onChange={this.onChange} onBlur={this.save} value={this.props.value} />
       {this.state.saved}
@@ -54,11 +60,11 @@ class Role extends React.Component {
   }
 }
 
-class Roles extends React.Component {
+class Fields extends React.Component {
   render() {
     const data = this.props.data;
-    const roles = Object.keys(data).map((name) =>
-      <Role
+    const fields = Object.keys(data).map((name) =>
+      <Field
         key={name}
         onChange={this.props.onChange}
         onSave={this.props.onSave}
@@ -66,7 +72,7 @@ class Roles extends React.Component {
         value={data[name]}
       />);
     return <dl>
-      {roles}
+      {fields}
     </dl>;
   }
 }
@@ -98,11 +104,11 @@ class SignUpForm extends React.Component {
     return <React.Fragment>
       <dt><b>Meeting Date</b></dt><dd>{meetingDate}</dd>
       <button onClick={this.reset}>Clear everything ♻️️</button>
-      <Roles data={this.state} onChange={this.update} onSave={this.save} />
+      <Fields data={this.state} onChange={this.update} onSave={this.save} />
     </React.Fragment>;
   }
 }
 
-const element = <SignUpForm data={data}/>;
+const element = <SignUpForm data={dataFromSheet}/>;
 ReactDOM.render(element, document.getElementById('sign-up'))
 </script>
