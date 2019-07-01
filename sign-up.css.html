@@ -1,16 +1,20 @@
 <style>
+
 body#sign-up-root {
-  width: 75%;
   padding-left: 1em;
+  padding-right: 1em;
   font-family: apercu-pro, "Apercu Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   overflow-wrap: break-word;
+  font-size: 48px;
 }
 
-/* Mobile Display */
-@media only screen and (min-width: 1000px) {
-  body#sign-up-root {
-/*    font-size:48px;*/
-  }
+span.fieldTitle {
+    display: block;
+}
+
+button#clear {
+  font-size: inherit;
+  padding: 0 .5em;
 }
 
 h1 {
@@ -25,12 +29,40 @@ div#sign-up {
   margin-top: 1em;
 }
 
-label.field {
+p, ol, ul, a, label.field, span.fieldTitle, span.status {
+  font-size: inherit;
+}
+
+#signUpForm fieldset {
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+#signUpForm fieldset legend {
+  background-color: #000;
+  color: #fff;
+  padding: .2em .4em;
+}
+
+label {
   font-weight: bold;
   display: block;
+  margin-top: .5em;
+}
+label span {
+  vertical-align: middle;
+}
+
+.field textarea {
+  margin-left: 1em;
+  font-size: inherit;
+  width: 75%;
+  height: 8em;
+  -webkit-overflow-scrolling: touch;
 }
 
 input {
+  width: 75%;
   font-size: inherit;
   margin-left: 1em;
 }
