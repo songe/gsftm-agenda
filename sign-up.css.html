@@ -1,6 +1,9 @@
 <style>
+body#root {
+  margin: 0;
+}
 
-body#sign-up-root {
+div#body {
   padding-left: 1em;
   padding-right: 1em;
   font-family: apercu-pro, "Apercu Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
@@ -25,6 +28,10 @@ h2 {
   font-size: 1.2em;
 }
 
+a#print {
+  font-size: 1.2em;
+}
+
 div#sign-up {
   margin-top: 1em;
 }
@@ -41,7 +48,13 @@ p, ol, ul, a, label.field, span.fieldTitle, span.status {
 #signUpForm fieldset legend {
   background-color: #000;
   color: #fff;
-  padding: .2em .4em;
+  padding: .3em .6em;
+}
+
+#signUpForm fieldset.speaker legend {
+    background-color: unset;
+    color: #000;
+    font-weight: bold;
 }
 
 label {
@@ -52,6 +65,9 @@ label {
 label span {
   vertical-align: middle;
 }
+label#meetingDate {
+  display: inline-block;
+}
 
 .field textarea {
   margin-left: 1em;
@@ -59,12 +75,18 @@ label span {
   width: 75%;
   height: 8em;
   -webkit-overflow-scrolling: touch;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 input {
-  width: 75%;
   font-size: inherit;
   margin-left: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: auto;
 }
 
 footer {

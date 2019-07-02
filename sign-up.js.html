@@ -1,4 +1,8 @@
 <script type="text/babel">
+var fieldDefaults = {
+  "inputType": "text",
+  "maxLength": 20
+};
 var fields = {
   "word": {
     "word": {
@@ -20,13 +24,15 @@ var fields = {
       "title": "Definition",
       "name": "word.definition",
       "example": "a person who presides at a dinner and introduces the after-dinner speakers",
-      "inputType": "textarea"
+      "inputType": "textarea",
+      "maxLength": 140
     },
     "usage":{
       "title": "Usage",
       "name": "word.usage",
       "example": "The toastmaster announced the bridal party to the assembled guests.",
-      "inputType": "textarea"
+      "inputType": "textarea",
+      "maxLength": 140
     }
   },
   "roles": {
@@ -53,7 +59,8 @@ var fields = {
       "speechName": {
         "title": "Speech Title",
         "name":"speaker1.speechName",
-        "example": "The Story of My Life"
+        "example": "The Story of My Life",
+        "maxLength": 36
       }
     },
     "speaker2": {
@@ -75,7 +82,8 @@ var fields = {
       "speechName": {
         "title": "Speech Title",
         "name":"speaker2.speechName",
-        "example": "My Research on NASA"
+        "example": "My Research Speech",
+        "maxLength": 36
       }
     },
     "genEvaluator": {
@@ -129,10 +137,12 @@ class Field extends React.Component {
   render() {
     var value = this.props.data[this.props.name];
     var example = this.props.example && "e.g. " + this.props.example;
-    if (this.props.inputType == 'textarea') {
-      var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength="140" value={value}></textarea>;
+    var inputType = this.props.inputType || fieldDefaults.inputType;
+    var maxLength = this.props.maxLength || fieldDefaults.maxLength;
+    if (inputType == 'textarea') {
+      var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value}></textarea>;
     } else {
-      input = <input type="text" onChange={this.onChange} onBlur={this.save} placeholder={example} value={value} />;
+      input = <input type="text" onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value} />;
     }
 
     return <label className="field">
@@ -147,7 +157,7 @@ class Word extends React.Component {
   render() {
     var self = this;
     return <fieldset>
-      <legend>Word</legend>
+      <legend>Word of the Day</legend>
       {Object.keys(this.props.display).map((field) => {
         var details = self.props.display[field];
         return <Field key={field} functions={self.props.functions} data={self.props.data} {...details} /> })}
@@ -185,7 +195,7 @@ class Roles extends React.Component {
       }
     });
     return <fieldset>
-      <legend>Roles</legend>
+      <legend>Meeting Roles</legend>
       {roles}
     </fieldset>;
   }
@@ -222,7 +232,7 @@ class SignUpForm extends React.Component {
   }
   render() {
     return <React.Fragment>
-      <label><span className="fieldTitle">Meeting Date</span><input type="text" value={meetingDate} /></label>
+      <label id="meetingDate"><span className="fieldTitle">Meeting Date</span><input type="text" value={meetingDate} readOnly /></label>
       <button id="clear" onClick={this.reset}>Clear ♻️️</button>
       <Word data={this.state} functions={this.functions} display={this.props.word} />
       <Roles data={this.state} functions={this.functions} display={this.props.roles} />
