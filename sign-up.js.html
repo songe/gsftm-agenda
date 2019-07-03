@@ -1,7 +1,8 @@
 <script type="text/babel">
-var fieldDefaults = {
+var fieldDefault = {
   "inputType": "text",
-  "maxLength": 20
+  "maxLength": 20,
+  "example": "TBD"
 };
 var fields = {
   "word": {
@@ -47,9 +48,9 @@ var fields = {
         "name":"speaker1.name"
       },
       "projectNumber": {
-        "title": "Project Number",
+        "title": "Project Path & Level",
         "name":"speaker1.projectNumber",
-        "example": "CC#1"
+        "example": "Presentation Mastery #1"
       },
       "projectName": {
         "title": "Project Name",
@@ -70,9 +71,9 @@ var fields = {
         "name":"speaker2.name"
       },
       "projectNumber": {
-        "title": "Project Number",
+        "title": "Project Path & Level",
         "name":"speaker2.projectNumber",
-        "example": "DL#2"
+        "example": "Dynamic Leadership #2"
       },
       "projectName": {
         "title": "Project Name",
@@ -136,17 +137,18 @@ class Field extends React.Component {
   }
   render() {
     var value = this.props.data[this.props.name];
-    var example = this.props.example && "e.g. " + this.props.example;
-    var inputType = this.props.inputType || fieldDefaults.inputType;
-    var maxLength = this.props.maxLength || fieldDefaults.maxLength;
+    var example = this.props.example && "e.g. " + this.props.example || fieldDefault.example;
+    var inputType = this.props.inputType || fieldDefault.inputType;
+    var maxLength = this.props.maxLength || fieldDefault.maxLength;
     if (inputType == 'textarea') {
       var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value}></textarea>;
     } else {
       input = <input type="text" onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value} />;
     }
+    var emptyMarker = value ? "" : " ❗";
 
     return <label className="field">
-      <span className="fieldTitle">{this.props.title}</span>
+      <span className="fieldTitle">{this.props.title}{emptyMarker}</span>
       {input}
       <span className="status">{this.state.saved}</span>
     </label>

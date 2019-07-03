@@ -23,16 +23,9 @@ function Reset() {
   .setRanges(inputs.getRanges())
   .build();
   sheet.setConditionalFormatRules([conditionalFormattingRule]);
-};
 
-function ResetSignUpSheetAfter7PMOnTuesdays() {
-  var now = new Date();
-  var hour = Utilities.formatDate(now, 'America/Los_Angeles', 'h');
-  // Clear the form if it's Tuesday between 7-7:25PM PST
-  if (hour == "7" && now.getMinutes() < 25) {
-    Reset();
-  }
-}
+  console.log("Ran reset()");
+};
 
 function Insertdivider() {
   var spreadsheet = SpreadsheetApp.getActive();

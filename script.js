@@ -1,9 +1,6 @@
 var signUpSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sign Up");
 
 function doGet() {
-  var user = Session.getActiveUser().getEmail();
-  console.log(user);
-
   var page = HtmlService.createTemplateFromFile("sign-up")
   page.meetingDate = getMeetingDate();
   page.data = getCurrentSignUps();
@@ -66,6 +63,6 @@ function updateCurrentSignUps(data) {
     }
   }
 
-  var user = Session.getActiveUser().getEmail();
-  console.log(user + JSON.stringify(changeLog));
+  //var user = Session.getActiveUser().getEmail();
+  console.log("Updated: " + JSON.stringify(changeLog));
 }
