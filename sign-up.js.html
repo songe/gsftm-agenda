@@ -1,7 +1,7 @@
 <script type="text/babel">
 var fieldDefault = {
   "inputType": "text",
-  "maxLength": 20,
+  "maxLength": 10,
   "example": "TBD"
 };
 var fields = {
@@ -9,12 +9,14 @@ var fields = {
     "word": {
       "title": "Word",
       "name": "word.word",
-      "example": "toastmaster"
+      "example": "toastmaster",
+      "maxLength": 20,
     },
     "pronunciation": {
       "title": "Pronunciation",
       "name": "word.pronunciation",
-      "example": "TOHST-mas-ter"
+      "example": "TOHST-mas-ter",
+      "maxLength": 20,
     },
     "class": {
       "title": "Word Class",
@@ -26,14 +28,16 @@ var fields = {
       "name": "word.definition",
       "example": "a person who presides at a dinner and introduces the after-dinner speakers",
       "inputType": "textarea",
-      "maxLength": 140
+      "rows": 5,
+      "maxLength": 120
     },
     "usage":{
       "title": "Usage",
       "name": "word.usage",
       "example": "The toastmaster announced the bridal party to the assembled guests.",
       "inputType": "textarea",
-      "maxLength": 140
+      "rows": 5,
+      "maxLength": 110
     }
   },
   "roles": {
@@ -50,12 +54,18 @@ var fields = {
       "projectNumber": {
         "title": "Project Path & Level",
         "name":"speaker1.projectNumber",
-        "example": "Presentation Mastery #1"
+        "example": "Presentation Mastery #1",
+        "inputType": "textarea",
+        "rows": 2,
+        "maxLength": 30
       },
       "projectName": {
         "title": "Project Name",
         "name":"speaker1.projectName",
-        "example": "Icebreaker"
+        "example": "Icebreaker",
+        "inputType": "textarea",
+        "rows": 2,
+        "maxLength": 30
       },
       "speechName": {
         "title": "Speech Title",
@@ -73,12 +83,18 @@ var fields = {
       "projectNumber": {
         "title": "Project Path & Level",
         "name":"speaker2.projectNumber",
-        "example": "Dynamic Leadership #2"
+        "example": "Dynamic Leadership #2",
+        "inputType": "textarea",
+        "rows": 2,
+        "maxLength": 30
       },
       "projectName": {
         "title": "Project Name",
         "name":"speaker2.projectName",
-        "example": "Researching & Presenting"
+        "example": "Researching & Presenting",
+        "inputType": "textarea",
+        "rows": 2,
+        "maxLength": 30
       },
       "speechName": {
         "title": "Speech Title",
@@ -141,7 +157,8 @@ class Field extends React.Component {
     var inputType = this.props.inputType || fieldDefault.inputType;
     var maxLength = this.props.maxLength || fieldDefault.maxLength;
     if (inputType == 'textarea') {
-      var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value}></textarea>;
+      var rows = this.props.rows || "default";
+      var input = <textarea onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} rows={rows} value={value}></textarea>;
     } else {
       input = <input type="text" onChange={this.onChange} onBlur={this.save} placeholder={example} maxLength={maxLength} value={value} />;
     }
@@ -151,6 +168,7 @@ class Field extends React.Component {
       <span className="fieldTitle">{this.props.title}{emptyMarker}</span>
       {input}
       <span className="status">{this.state.saved}</span>
+      <span className="maxLength">{value.length}/{maxLength} characters</span>
     </label>
   }
 }
@@ -158,7 +176,7 @@ class Field extends React.Component {
 class Word extends React.Component {
   render() {
     var self = this;
-    return <fieldset>
+    return <fieldset id="wordOfTheDay">
       <legend>Word of the Day</legend>
       {Object.keys(this.props.display).map((field) => {
         var details = self.props.display[field];
@@ -196,7 +214,7 @@ class Roles extends React.Component {
         }
       }
     });
-    return <fieldset>
+    return <fieldset id="roles">
       <legend>Meeting Roles</legend>
       {roles}
     </fieldset>;

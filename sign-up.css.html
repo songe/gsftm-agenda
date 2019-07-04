@@ -73,12 +73,25 @@ label#meetingDate {
 .field textarea {
   margin-left: 1em;
   font-size: inherit;
-  width: 75%;
-  height: 8em;
+  width: calc(100% - 3em);
   -webkit-overflow-scrolling: touch;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+span.status {
+    margin-left: .2em;
+    width: 1em;
+    height: 1em;
+}
+
+span.maxLength {
+  display: block;
+  font-weight: normal;
+  font-size: .5em;
+  margin-left: 2em;
+  text-align: left;
 }
 
 input {
@@ -87,7 +100,10 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  width: auto;
+}
+
+.field input {
+  width: calc(100% - 3em);
 }
 
 footer {
