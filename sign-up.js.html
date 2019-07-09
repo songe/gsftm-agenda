@@ -243,7 +243,8 @@ class SignUpForm extends React.Component {
     this.setState(change);
   }
   reset() {
-    if (confirm("Clear everything?")) {
+    var answer = prompt("Clear everything off the form?\nType YES or no", "");
+    if (answer === 'YES') {
       var self = this;
       Object.keys(this.state).forEach((key) => self.state[key] = "");
       this.setState(this.state);
