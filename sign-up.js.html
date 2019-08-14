@@ -236,7 +236,7 @@ class SignUpForm extends React.Component {
   save(data) {
     this.setState(data, function() {
       console.log(`data: ${JSON.stringify(data)}`);
-      sendUpdatedDataToSheet(this.state);
+      sendUpdatedDataToSheet(data);
     });
   }
   update(change) {
