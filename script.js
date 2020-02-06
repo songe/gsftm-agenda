@@ -32,7 +32,7 @@ var locations = {
   "genEvaluator": "E25",
   "evaluator1": "E26",
   "evaluator2": "E27",
-  "grammarian": "E28",
+  "ah-counter": "E28",
   "topicsmaster": "E29",
   "timer": "E30",
 };

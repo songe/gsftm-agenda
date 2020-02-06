@@ -71,7 +71,7 @@ var fields = {
         "title": "Speech Title",
         "name":"speaker1.speechName",
         "example": "The Story of My Life",
-        "maxLength": 40
+        "maxLength": 50
       }
     },
     "speaker2": {
@@ -100,7 +100,7 @@ var fields = {
         "title": "Speech Title",
         "name":"speaker2.speechName",
         "example": "My Research Speech",
-        "maxLength": 40
+        "maxLength": 50
       }
     },
     "genEvaluator": {
@@ -115,13 +115,13 @@ var fields = {
       "title":"Evaluator 2",
       "name":"evaluator2"
     },
-    "grammarian": {
-      "title":"Grammarian",
-      "name":"grammarian"
-    },
     "topicsmaster": {
       "title":"Topicsmaster",
       "name":"topicsmaster"
+    },
+    "ah-counter": {
+      "title":"Ah-Counter",
+      "name":"ah-counter"
     },
     "timer": {
       "title":"Timer",
@@ -243,8 +243,8 @@ class SignUpForm extends React.Component {
     this.setState(change);
   }
   reset() {
-    var answer = prompt("Clear everything off the form?\nType YES or no", "");
-    if (answer === 'YES') {
+    var answer = prompt("Clear everything off the form?\nType yes or no", "");
+    if (answer.toLowerCase() === 'yes') {
       var self = this;
       Object.keys(this.state).forEach((key) => self.state[key] = "");
       this.setState(this.state);
